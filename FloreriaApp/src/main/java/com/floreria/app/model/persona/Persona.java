@@ -20,8 +20,9 @@ public class Persona implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="per_id")
-	private int perId;
+	private Integer perId;
 
 	@Column(name="per_ape_mat")
 	private String perApeMat;
@@ -29,11 +30,11 @@ public class Persona implements Serializable {
 	@Column(name="per_ape_pate")
 	private String perApePate;
 
-	@Column(name="per_email")
+	@Column(name="per_email", updatable = false)
 	private String perEmail;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="per_falta")
+	@Column(name="per_falta", updatable = false)
 	private Date perFalta;
 
 	@Temporal(TemporalType.DATE)
@@ -62,11 +63,11 @@ public class Persona implements Serializable {
 	public Persona() {
 	}
 
-	public int getPerId() {
+	public Integer getPerId() {
 		return this.perId;
 	}
 
-	public void setPerId(int perId) {
+	public void setPerId(Integer perId) {
 		this.perId = perId;
 	}
 

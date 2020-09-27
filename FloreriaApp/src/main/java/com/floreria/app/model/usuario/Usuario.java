@@ -19,16 +19,17 @@ public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="usu_id")
 	private int usuId;
 
 	@Column(name="usu_estatus")
 	private String usuEstatus;
 
-	@Column(name="usu_password")
+	@Column(name="usu_password", updatable = false)
 	private String usuPassword;
 
-	@Column(name="usu_usuario")
+	@Column(name="usu_usuario", updatable = false)
 	private String usuUsuario;
 
 	//bi-directional many-to-many association to Grupo

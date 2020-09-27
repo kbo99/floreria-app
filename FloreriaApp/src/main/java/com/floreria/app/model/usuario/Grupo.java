@@ -2,6 +2,9 @@ package com.floreria.app.model.usuario;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import java.util.List;
 
 
@@ -37,6 +40,7 @@ public class Grupo implements Serializable {
 
 	//bi-directional many-to-many association to Usuario
 	@ManyToMany
+	@JsonBackReference 
 	@JoinTable(
 		name="usu_grupo"
 		, joinColumns={
