@@ -94,6 +94,11 @@ public class ProductoService implements IProductoService {
 				 productoDao.save(producto);
 			}
 			
+			if(producto.getCantidadMov() != null && producto.getCantidadMov() > 0 
+					&& producto.getTpoMov() != null && producto.getTpoMov() > 0) {
+				generaMov(producto);
+			}
+			
 			if(producto.getLstProdHijo() != null && producto.getLstProdHijo().size() > 0) {
 				producto.getLstProdHijo().forEach(item -> {
 					ProdHijo chamacoAdd = new ProdHijo();
