@@ -25,12 +25,13 @@ public class Hproducto implements Serializable {
 	@Column(name="hps_cantidad_movimiento")
 	private int hpsCantidadMovimiento;
 
-	@Temporal(TemporalType.TIMESTAMP)
+	
 	@Column(name="hps_fecha")
 	private Date hpsFecha;
 
-	@Column(name="prod_id")
-	private int prodId;
+	@ManyToOne
+	@JoinColumn(name="prod_id")
+	private Producto producto;
 	
 	@Column
 	private int hpsCantidadExi;
@@ -39,7 +40,17 @@ public class Hproducto implements Serializable {
 	@JoinColumn(name="tmp_id")
 	private TpoMovimientoProducto tmpId;
 
+	@Column
 	private String usuario;
+	
+	@Transient
+	private String prodNombre;
+	
+	@Transient
+	private String prodExistenciaActual;
+	
+	@Transient
+	private String tpoMovimiento;
 
 	public Hproducto() {
 	}
@@ -76,13 +87,7 @@ public class Hproducto implements Serializable {
 		this.hpsFecha = hpsFecha;
 	}
 
-	public int getProdId() {
-		return this.prodId;
-	}
-
-	public void setProdId(int prodId) {
-		this.prodId = prodId;
-	}
+	
 
 	public TpoMovimientoProducto getTmpId() {
 		return this.tmpId;
@@ -113,5 +118,63 @@ public class Hproducto implements Serializable {
 	public void setHpsCantidadExi(int hpsCantidadExi) {
 		this.hpsCantidadExi = hpsCantidadExi;
 	}
+
+	/**
+	 * @return the producto
+	 */
+	public Producto getProducto() {
+		return producto;
+	}
+
+	/**
+	 * @param producto the producto to set
+	 */
+	public void setProducto(Producto producto) {
+		this.producto = producto;
+	}
+
+	/**
+	 * @return the prodNombre
+	 */
+	public String getProdNombre() {
+		return prodNombre;
+	}
+
+	/**
+	 * @param prodNombre the prodNombre to set
+	 */
+	public void setProdNombre(String prodNombre) {
+		this.prodNombre = prodNombre;
+	}
+
+	/**
+	 * @return the prodExistenciaActual
+	 */
+	public String getProdExistenciaActual() {
+		return prodExistenciaActual;
+	}
+
+	/**
+	 * @param prodExistenciaActual the prodExistenciaActual to set
+	 */
+	public void setProdExistenciaActual(String prodExistenciaActual) {
+		this.prodExistenciaActual = prodExistenciaActual;
+	}
+
+	/**
+	 * @return the tpoMovimiento
+	 */
+	public String getTpoMovimiento() {
+		return tpoMovimiento;
+	}
+
+	/**
+	 * @param tpoMovimiento the tpoMovimiento to set
+	 */
+	public void setTpoMovimiento(String tpoMovimiento) {
+		this.tpoMovimiento = tpoMovimiento;
+	}
+	
+	
 
 }

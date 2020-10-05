@@ -4,9 +4,9 @@
 package com.floreria.app.service.producto;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +27,7 @@ import com.floreria.app.model.producto.TipoProducto;
 import com.floreria.app.model.producto.TpoMovimientoProducto;
 import com.floreria.app.service.imagen.IIMagen;
 import com.floreria.app.util.Const;
+import com.floreria.app.util.RequestPerson;
 
 
 /**
@@ -105,6 +106,7 @@ public class ProductoService implements IProductoService {
 					chamacoAdd.setProducto(item);
 					chamacoAdd.setProdIdPadre(producto.getProdId());
 					chamacoAdd.setPrhEstatus("AC");
+					chamacoAdd.setPrhCantidad(item.getCantidadMov().doubleValue());
 					prodHijoDAO.save(chamacoAdd);
 					
 				});
@@ -170,8 +172,7 @@ public class ProductoService implements IProductoService {
 						item.setImgDefault(((Imagen)item.getLstImg().get(0)).getImgUrl());
 					}
 					
-					item.setLstProdHijo(prodHijoDAO.getChamacosActivosProd(item.getProdId(), status));
-					
+				
 				} catch (Exception e) {
 					logger.error("Error al buscor imagen del producto razon \n" + e.getMessage() + e.getCause(), e);
 					e.printStackTrace();
@@ -233,7 +234,7 @@ public class ProductoService implements IProductoService {
 			hprod.setTmpId(tpo);
 			hprod.setHpsCantAnterior(cantAnterior);
 			hprod.setHpsCantidadMovimiento(cantidadMov);
-			hprod.setProdId(prod.getProdId());
+			hprod.setProducto(prod);
 			
 			hprod.setHpsCantidadExi(tpo.getTmpSuma().equals(Const.STRING_V) ? hprod.getHpsCantAnterior() + hprod.getHpsCantidadMovimiento() : 
 				hprod.getHpsCantAnterior() - hprod.getHpsCantidadMovimiento());
@@ -266,6 +267,57 @@ public class ProductoService implements IProductoService {
 			throw new Exception(e);
 		}
 		return hpro;
+	}
+
+	
+	@Override
+	public List<Hproducto> findMovmientoByParam(RequestPerson reque) throws Exception {
+		List<Hproducto> lstTmp = new ArrayList<Hproducto>();
+		try {
+			Calendar now = Calendar.getInstance();
+			now.setTime(reque.getFechaIni());
+	        now.set(Calendar.HOUR, 0);
+	        now.set(Calendar.MINUTE, 0);
+	        now.set(Calendar.SECOND, 0);
+			if(reque.getExtraParamMap() != null && reque.getExtraParamMap().size() > 0) {
+				if(reque.getExtraParamMap().get("nombre") != null && 
+						((String)reque.getExtraParamMap().get("nombre")).length() > 0 &&
+						reque.getExtraParamMap().get("tpomov") != null && 
+						((Integer)reque.getExtraParamMap().get("tpomov")) > 0) {
+					lstTmp = hproductoDAO.findByHpsFechaBetweenAndProductoProdNombreLikeAndTmpIdTmpIdOrderByHpsFechaDesc(
+							now.getTime(), reque.getFechaFin(),
+									(String) reque.getExtraParamMap().get("nombre"), 
+									(Integer)reque.getExtraParamMap().get("tpomov"));
+				}else if(reque.getExtraParamMap().get("tpomov") != null &&
+						reque.getExtraParamMap().get("tpomov") != null && 
+						((Integer)reque.getExtraParamMap().get("tpomov")) > 0) {
+					lstTmp = hproductoDAO.findByHpsFechaBetweenAndTmpIdTmpIdOrderByHpsFechaDesc(
+							now.getTime(), reque.getFechaFin(),(Integer)reque.getExtraParamMap().get("tpomov"));
+				}else if(reque.getExtraParamMap().get("nombre") != null && 
+						((String)reque.getExtraParamMap().get("nombre")).length() > 0){
+					lstTmp = hproductoDAO.findByHpsFechaBetweenAndProductoProdNombreLikeOrderByHpsFechaDesc(
+							now.getTime(), reque.getFechaFin(),(String) reque.getExtraParamMap().get("nombre"));
+				}else {
+					lstTmp = hproductoDAO.findByHpsFechaBetweenOrderByHpsFechaDesc(now.getTime(),
+							reque.getFechaFin());
+					
+				}
+			}else {
+				lstTmp = hproductoDAO.findByHpsFechaBetweenOrderByHpsFechaDesc(reque.getFechaIni(),
+						reque.getFechaFin());
+				
+			}
+			
+			for(Hproducto hprod : lstTmp) {
+				hprod.setProdExistenciaActual(hprod.getProducto().getProdExistenciaMin()+"");
+				hprod.setProdNombre(hprod.getProducto().getProdNombre());
+				hprod.setTpoMovimiento(hprod.getTmpId().getTmpDesc());
+			}
+		} catch (Exception e) {
+			logger.error("Error al consultar historico producto razon \n" + e.getMessage() + e.getCause(),e);
+			throw new Exception(e);
+		}
+		return lstTmp;
 	}
 
 	

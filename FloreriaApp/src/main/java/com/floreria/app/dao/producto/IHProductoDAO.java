@@ -17,8 +17,17 @@ import com.floreria.app.model.producto.Hproducto;
 public interface IHProductoDAO extends PagingAndSortingRepository<Hproducto, Long> {
 	
 	
-	List<Hproducto> findByProdId(Integer prodId);
+	List<Hproducto> findByProductoProdId(Integer prodId);
 	
 	List<Hproducto> findByHpsFechaBetweenOrderByHpsFechaDesc(Date fechain, Date fechaFin);
+	
+	List<Hproducto> findByHpsFechaBetweenAndProductoProdNombreLikeOrderByHpsFechaDesc(Date fechain, Date fechaFin, 
+			String prodNombre);
+	
+	List<Hproducto> findByHpsFechaBetweenAndProductoProdNombreLikeAndTmpIdTmpIdOrderByHpsFechaDesc(Date fechain, Date fechaFin, 
+			String prodNombre, Integer tmpId);
+	
+	List<Hproducto> findByHpsFechaBetweenAndTmpIdTmpIdOrderByHpsFechaDesc(Date fechain, Date fechaFin, 
+			Integer tmpId);
 
 }

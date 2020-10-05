@@ -9,6 +9,7 @@ import com.floreria.app.model.producto.Hproducto;
 import com.floreria.app.model.producto.Producto;
 import com.floreria.app.model.producto.TipoProducto;
 import com.floreria.app.model.producto.TpoMovimientoProducto;
+import com.floreria.app.util.RequestPerson;
 
 /**
  * @author gdejesus
@@ -39,6 +40,8 @@ public interface IProductoService {
 	List<TpoMovimientoProducto> findAll() throws Exception;
 	
 	Hproducto generaMov(Producto prod) throws Exception;
+	
+	List<Hproducto> findMovmientoByParam(RequestPerson reque) throws Exception;
 	
 	
 }

@@ -17,6 +17,7 @@ import com.floreria.app.model.producto.Producto;
 import com.floreria.app.model.producto.TipoProducto;
 import com.floreria.app.model.producto.TpoMovimientoProducto;
 import com.floreria.app.service.producto.IProductoService;
+import com.floreria.app.util.RequestPerson;
 
 /**
  * @author macpro
@@ -108,6 +109,18 @@ public class ProductoController {
 		Hproducto hprod = new Hproducto();
 		try {
 			hprod = productoService.generaMov(producto);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return hprod;
+	}
+	
+	@PostMapping("/findByParam")
+	public List<Hproducto> findByParam(@RequestBody RequestPerson producto) {
+		List<Hproducto>  hprod = new ArrayList<Hproducto>();
+		try {
+			hprod = productoService.findMovmientoByParam(producto);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
