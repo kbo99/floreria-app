@@ -1,5 +1,7 @@
 package com.floreria.app.controller.usuario;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.floreria.app.controller.utils.FloreriaBusinessException;
 import com.floreria.app.controller.utils.IconAlert;
 import com.floreria.app.controller.utils.Response;
-import com.floreria.app.model.usuario.RegisterUsuario;
+import com.floreria.app.model.usuario.Grupo;
+import com.floreria.app.model.usuario.Menu;
 import com.floreria.app.model.usuario.Usuario;
 import com.floreria.app.service.usuario.IUsuarioService;
 
@@ -83,4 +86,8 @@ public class UsuarioController {
 		return new ResponseEntity<Response>(response, estatus);
 	}
 	
+	@PostMapping("/menu/getmenu")
+	public List<Menu> findMenus(@RequestBody List<Grupo> grupos) {
+		return usuarioService.getMenyByGroup(grupos);
+	}
 }

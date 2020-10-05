@@ -30,14 +30,6 @@ public class Grupo implements Serializable {
 	@Column(name="grp_nombre")
 	private String grpNombre;
 
-//	//bi-directional many-to-one association to Menus
-//	@OneToMany(mappedBy="grupo")
-//	private List<Menus> menuses;
-//
-//	//bi-directional many-to-one association to SubMenus
-//	@OneToMany(mappedBy="grupo")
-//	private List<SubMenus> subMenuses;
-
 	//bi-directional many-to-many association to Usuario
 	@ManyToMany
 	@JsonBackReference 

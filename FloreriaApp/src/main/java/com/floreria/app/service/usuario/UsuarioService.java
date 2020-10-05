@@ -3,8 +3,11 @@
  */
 package com.floreria.app.service.usuario;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,10 +19,12 @@ import com.floreria.app.controller.utils.Const;
 import com.floreria.app.controller.utils.FloreriaBusinessException;
 import com.floreria.app.dao.persona.IPersonaDao;
 import com.floreria.app.dao.usuario.IGrupoDao;
+import com.floreria.app.dao.usuario.IMenusDao;
 import com.floreria.app.dao.usuario.IUsuGrupoDAO;
 import com.floreria.app.dao.usuario.IUsuarioDAO;
 import com.floreria.app.model.persona.Persona;
 import com.floreria.app.model.usuario.Grupo;
+import com.floreria.app.model.usuario.Menu;
 import com.floreria.app.model.usuario.UsuGrupo;
 import com.floreria.app.model.usuario.UsuGrupoEmbededId;
 import com.floreria.app.model.usuario.Usuario;
@@ -42,6 +47,9 @@ public class UsuarioService implements IUsuarioService {
 
 	@Autowired
 	private IUsuGrupoDAO usuGrupoDAO;
+	
+	@Autowired
+	private IMenusDao menuDao;
 	
 	@Override
 	@Transactional(readOnly = true)
@@ -107,4 +115,35 @@ public class UsuarioService implements IUsuarioService {
 		return (List<Usuario>) usuarioDao.findAll();
 	}
 
+	@Override
+	public List<Menu> getMenyByGroup(List<Grupo> grupos) { 
+		List<String> listGrupos = new ArrayList<String>();
+		grupos.stream().forEach(g -> listGrupos.add(g.getGrpNombre()));
+		
+		List<Menu> menu = menuDao.findMenus(listGrupos);
+		
+		menu.forEach(m -> {
+			m.setChildren(getSubmenu(m.getMenId(), listGrupos));
+		});
+		Collections.sort(menu);
+		return menu;
+	}
+
+	private List<Menu> getSubmenu (Integer menId, List<String> grupos) {
+		List<Menu> subMenus = menuDao.findSubMenus(grupos, menId);
+		subMenus.forEach(sub -> {
+			if (sub.getType().equals("sub")) {
+				sub.setChildren(getSubmenu(sub.getMenId(), grupos));
+				if (sub.getChildren() != null && sub.getChildren().size() > 0) {
+					sub.getChildren().forEach(sub1-> {
+						if (sub1.getType().equals("sub")) {
+							sub1.setChildren(getSubmenu(sub1.getMenId(), grupos));
+						}
+					});
+				}
+				Collections.sort(sub.getChildren());
+			}
+		});
+		return subMenus;
+	}
 }
