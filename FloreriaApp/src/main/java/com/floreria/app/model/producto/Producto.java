@@ -74,6 +74,12 @@ public class Producto implements Serializable {
 	
 	@Transient
 	private Integer tpoMov;
+	
+	@Transient
+	private Integer cantProduccion;
+	
+	@Transient
+	private Integer cantidadFaltante;
 
 	public Producto() {
 	}

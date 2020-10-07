@@ -102,10 +102,13 @@ public class ProductoService implements IProductoService {
 			
 			if(producto.getLstProdHijo() != null && producto.getLstProdHijo().size() > 0) {
 				producto.getLstProdHijo().forEach(item -> {
-					ProdHijo chamacoAdd = new ProdHijo();
-					chamacoAdd.setProducto(item);
-					chamacoAdd.setProdIdPadre(producto.getProdId());
-					chamacoAdd.setPrhEstatus("AC");
+					ProdHijo chamacoAdd = prodHijoDAO.findByProdIdPadreAndProductoProdId(producto.getProdId(), item.getProdId());
+					if(chamacoAdd == null) {
+						 chamacoAdd = new ProdHijo();
+						 chamacoAdd.setProducto(item);
+							chamacoAdd.setProdIdPadre(producto.getProdId());
+							chamacoAdd.setPrhEstatus("AC");
+					}
 					chamacoAdd.setPrhCantidad(item.getCantidadMov().doubleValue());
 					prodHijoDAO.save(chamacoAdd);
 					
@@ -171,6 +174,9 @@ public class ProductoService implements IProductoService {
 					if(item.getLstImg() != null && item.getLstImg().size() > 0) {
 						item.setImgDefault(((Imagen)item.getLstImg().get(0)).getImgUrl());
 					}
+					
+					
+					item.setLstProdHijo(prodHijoDAO.getChamacosActivosProd(item.getProdId(), status));
 					
 				
 				} catch (Exception e) {
