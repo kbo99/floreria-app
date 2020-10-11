@@ -11,3 +11,69 @@ INSERT INTO `floreria_app`.`grupo` (`grp_id`, `grp_nombre`, `grp_desc`, `grp_est
 INSERT INTO `floreria_app`.`usu_grupo`(`usu_id`,`grp_id`) VALUES(1,1);
 INSERT INTO `floreria_app`.`usu_grupo`(`usu_id`,`grp_id`) VALUES(1,2);
 INSERT INTO `floreria_app`.`usu_grupo`(`usu_id`,`grp_id`) VALUES(1,3);
+
+
+INSERT INTO `floreria_app`.`tipo_movimiento_prod`
+(`tmp_id`,
+`tmp_desc`,
+`tmp_suma`)
+VALUES
+(1,
+'Ingreso Nuevo Insumo',
+'V');
+
+INSERT INTO `floreria_app`.`tipo_movimiento_prod`
+(`tmp_id`,
+`tmp_desc`,
+`tmp_suma`)
+VALUES
+(2,
+'Ingreso Insumo',
+'V');
+
+INSERT INTO `floreria_app`.`tipo_movimiento_prod`
+(`tmp_id`,
+`tmp_desc`,
+`tmp_suma`)
+VALUES
+(3,
+'Salida Insumo Check Inventario',
+'F');
+
+
+INSERT INTO `floreria_app`.`tipo_movimiento_prod`
+(`tmp_id`,
+`tmp_desc`,
+`tmp_suma`)
+VALUES
+(4,
+'Ingreso Insumo Check Inventario',
+'V');
+
+INSERT INTO `floreria_app`.`tipo_movimiento_prod`
+(`tmp_id`,
+`tmp_desc`,
+`tmp_suma`)
+VALUES
+(5,
+'Salida Insumo Venta',
+'F');
+
+
+INSERT INTO `floreria_app`.`tipo_movimiento_prod`
+(`tmp_id`,
+`tmp_desc`,
+`tmp_suma`)
+VALUES
+(6,
+'Salida Insumo Merma',
+'F');
+
+INSERT INTO `floreria_app`.`tipo_movimiento_prod`
+(`tmp_id`,
+`tmp_desc`,
+`tmp_suma`)
+VALUES
+(7,
+'Salida Insumo Transalado',
+'F');
