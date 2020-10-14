@@ -127,4 +127,16 @@ public class ProductoController {
 		}
 		return hprod;
 	}
+	
+	@PostMapping("/updateProd")
+	public Producto updateProd(@RequestBody Producto producto) {
+		Producto prod = new Producto();
+		try {
+			prod = productoService.update(producto, producto.getProdNombre());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return prod;
+	}
 }
