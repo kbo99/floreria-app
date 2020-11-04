@@ -168,6 +168,7 @@ public class ProductoService implements IProductoService {
 		List<Producto>  lstProducto = new ArrayList<>();
 		try {
 			lstProducto = productoDao.findByProdEstatus(status);
+			/*
 			lstProducto.forEach(item -> {
 				try {
 					item.setLstImg(imagenService.getLstImagByProd(item.getProdId()));
@@ -183,7 +184,7 @@ public class ProductoService implements IProductoService {
 					logger.error("Error al buscor imagen del producto razon \n" + e.getMessage() + e.getCause(), e);
 					e.printStackTrace();
 				}
-			});
+			});*/
 			
 		} catch (Exception e) {
 			logger.error("Error al buscor el producto razon \n" + e.getMessage() + e.getCause());
@@ -325,7 +326,5 @@ public class ProductoService implements IProductoService {
 		}
 		return lstTmp;
 	}
-
-	
 
 }
