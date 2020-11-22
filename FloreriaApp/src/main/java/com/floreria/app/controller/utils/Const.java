@@ -17,4 +17,13 @@ public class Const {
 		}
 		return result;
 	}
+	
+	/**
+     * Devuele un null si el id envido es menor a 0
+     * @param id
+     * @return
+     */
+    public static Integer getNullToZero (Integer id) {
+    	return id != null && id > 0 ? id : null;
+    }
 }

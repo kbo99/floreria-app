@@ -50,16 +50,15 @@ public class Persona implements Serializable {
 	@Column(name="per_telefono")
 	private String perTelefono;
 
-//	//bi-directional many-to-one association to Direccion
-//	@ManyToOne
-//	@JoinColumn(name="`dir_:id`")
-//	private Direccion direccion;
-
 	//bi-directional many-to-one association to Usuario
 	@OneToMany(mappedBy="persona")
 	@JsonBackReference
 	private List<Usuario> usuarios;
 
+	//bi-directional many-to-one association to Direccion
+	@OneToMany(mappedBy="persona")
+	private List<Direccion> direccions;
+	
 	public Persona() {
 	}
 
@@ -135,14 +134,6 @@ public class Persona implements Serializable {
 		this.perTelefono = perTelefono;
 	}
 
-//	public Direccion getDireccion() {
-//		return this.direccion;
-//	}
-//
-//	public void setDireccion(Direccion direccion) {
-//		this.direccion = direccion;
-//	}
-
 	public List<Usuario> getUsuarios() {
 		return this.usuarios;
 	}
@@ -151,18 +142,12 @@ public class Persona implements Serializable {
 		this.usuarios = usuarios;
 	}
 
-//	public Usuario addUsuario(Usuario usuario) {
-//		getUsuarios().add(usuario);
-//		usuario.setPersona(this);
-//
-//		return usuario;
-//	}
-//
-//	public Usuario removeUsuario(Usuario usuario) {
-//		getUsuarios().remove(usuario);
-//		usuario.setPersona(null);
-//
-//		return usuario;
-//	}
+	public List<Direccion> getDireccions() {
+		return direccions;
+	}
+
+	public void setDireccions(List<Direccion> direccions) {
+		this.direccions = direccions;
+	}
 
 }

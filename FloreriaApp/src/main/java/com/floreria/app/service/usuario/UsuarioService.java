@@ -129,6 +129,7 @@ public class UsuarioService implements IUsuarioService {
 		return menu;
 	}
 
+	@Transactional(readOnly = true)
 	private List<Menu> getSubmenu (Integer menId, List<String> grupos) {
 		List<Menu> subMenus = menuDao.findSubMenus(grupos, menId);
 		subMenus.forEach(sub -> {
