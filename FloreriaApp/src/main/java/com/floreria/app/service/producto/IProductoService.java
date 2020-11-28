@@ -27,7 +27,7 @@ public interface IProductoService {
 	
 	boolean delete(Producto prod)throws Exception;
 	
-	List<Producto> getLstProductAc(String status) throws Exception;
+	List<Producto> getLstProductAc(String status, boolean esInsumo) throws Exception;
 	
 	List<Producto> getLstProductAcNotInProdId(List<Integer> lstProdId) throws Exception;
 	

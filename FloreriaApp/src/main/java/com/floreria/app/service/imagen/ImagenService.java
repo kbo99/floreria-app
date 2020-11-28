@@ -84,5 +84,15 @@ public class ImagenService implements IIMagen {
 		}
 		return lstImg;
 	}
+	
+	@Override
+	public void update(Imagen img) throws Exception {
+		try {
+			imagenDAO.save(img);
+		} catch (Exception e) {
+			log.error("Error al actualizar imagen", e);
+			throw new Exception();
+		}
+	}
 
 }

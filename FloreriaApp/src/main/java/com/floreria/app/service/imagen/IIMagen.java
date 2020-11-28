@@ -21,5 +21,7 @@ public interface IIMagen {
 	ProdImg save(ProdImg save) throws Exception;
 	
 	List<Imagen> saveImgByProdId(List<Imagen> lstImg, Integer proId) throws Exception;
+	
+	void update(Imagen img) throws Exception;
 
 }

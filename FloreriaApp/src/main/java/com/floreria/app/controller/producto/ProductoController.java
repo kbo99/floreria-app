@@ -42,10 +42,10 @@ public class ProductoController {
 	}
 	
 	@PostMapping("/insumos")
-	List<Producto> findAllProd(@RequestBody String estatus){
+	List<Producto> findAllProd(@RequestBody Producto parametros){
 		List<Producto>  lstPrdo = new ArrayList<Producto>();
 		try {
-			lstPrdo = productoService.getLstProductAc(estatus);
+			lstPrdo = productoService.getLstProductAc(parametros.getProdEstatus(), parametros.isProdEsInsumo());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

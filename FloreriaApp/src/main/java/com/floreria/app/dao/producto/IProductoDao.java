@@ -22,9 +22,11 @@ public interface IProductoDao extends PagingAndSortingRepository<Producto, Long>
 	
 	Producto save(Producto producto); 
 	
-	List<Producto> findByProdEstatus(String prodEstatus);
+	List<Producto> findByProdEstatusAndProdEsInsumo(String prodEstatus, boolean ProdEsinsumo);
 	
 	@Query("Select prod FROM Producto prod where prod.prodId NOT IN (?1) AND prod.prodEstatus = 'AC'")
 	List<Producto> getProductos(List<Integer> prodId);
+	
+	List<Producto> findAll();
 	
 }

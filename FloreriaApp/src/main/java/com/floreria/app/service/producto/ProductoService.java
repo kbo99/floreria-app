@@ -4,6 +4,7 @@
 package com.floreria.app.service.producto;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -11,7 +12,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.floreria.app.dao.imagen.IProdImgDAO;
 import com.floreria.app.dao.producto.IHProductoDAO;
@@ -25,7 +28,9 @@ import com.floreria.app.model.producto.ProdHijo;
 import com.floreria.app.model.producto.Producto;
 import com.floreria.app.model.producto.TipoProducto;
 import com.floreria.app.model.producto.TpoMovimientoProducto;
+import com.floreria.app.service.amazon.AmazonS3ImageService;
 import com.floreria.app.service.imagen.IIMagen;
+import com.floreria.app.service.imagen.ImageResizer;
 import com.floreria.app.util.Const;
 import com.floreria.app.util.RequestPerson;
 
@@ -115,11 +120,72 @@ public class ProductoService implements IProductoService {
 				});
 			}
 			
+			/*
 			imagenService.saveImgByProdId(producto.getLstImg(), producto.getProdId());
+			
+			
+			List<MultipartFile> images = new ArrayList<MultipartFile>();
+			String name = "prueba.jpg";
+			String originalFileName = "prueba.jpg";
+			String contentType = "image/jpeg";
+			//byte[] content = producto.getLstImg().get(0).getImgUrl().getBytes();
+			byte[] content = Base64.getDecoder().decode(producto.getLstImg().get(0).getImgUrl().split(",")[1]);
+			
+			
+			MultipartFile imagen = new MockMultipartFile(name,
+                    originalFileName, contentType, content);
+			
+			
+			images.add(imagen);
+			
+			AmazonS3ImageService as3 = new AmazonS3ImageService();
+			as3.insertImages(images);
+			*/
+			
 		} catch (Exception e) {
 			logger.error("Error al guardar el producto con nombre :" + producto.getProdNombre() + "razon \n" + e.getMessage() + e.getCause());
 		}
+		saveImage(producto);
 		return producto;
+	}
+	
+	private void saveImage(Producto producto) {
+		try {
+			
+			Integer contImg = 1;
+			for(Imagen imgProd : producto.getLstImg()) {
+				
+				String extension = imgProd.getImgUrl().split(";")[0];
+				extension = extension.split("/")[1];
+				
+				String name = Integer.toString(producto.getProdId()) + "_" + contImg + "." + extension;
+				String originalFileName = name;
+				String contentType = "image/" + extension;
+				//byte[] content = Base64.getDecoder().decode(producto.getLstImg().get(0).getImgUrl().split(",")[1]);
+				byte[] content = Base64.getDecoder().decode(imgProd.getImgUrl().split(",")[1]);
+				
+				content = ImageResizer.redimencionarImagen(content,extension);
+				
+				MultipartFile imagen = new MockMultipartFile(name,
+	                    originalFileName, contentType, content);
+				
+				AmazonS3ImageService as3 = new AmazonS3ImageService();
+				as3.imgIsInsumo = producto.isProdEsInsumo();
+				as3.insertImagen(imagen);
+				
+				if(producto.isProdEsInsumo()) {
+					imgProd.setImgUrl("insumos/" + name);
+				} else {
+					imgProd.setImgUrl("productos/" + name);
+				}
+				
+				contImg += 1;
+			}
+			
+			imagenService.saveImgByProdId(producto.getLstImg(), producto.getProdId());
+		} catch (Exception e) {
+			logger.error("Error al guardar las imagenes del producto con ID :" + producto.getProdId() + " razon \n" + e.getMessage() + e.getCause());
+		}
 	}
 
 	@Override
@@ -164,11 +230,11 @@ public class ProductoService implements IProductoService {
 
 	
 	@Override
-	public List<Producto> getLstProductAc(String status) throws Exception {
+	public List<Producto> getLstProductAc(String status, boolean esInsumo) throws Exception {
 		List<Producto>  lstProducto = new ArrayList<>();
 		try {
-			lstProducto = productoDao.findByProdEstatus(status);
-			/*
+			lstProducto = productoDao.findByProdEstatusAndProdEsInsumo(status, esInsumo);
+			
 			lstProducto.forEach(item -> {
 				try {
 					item.setLstImg(imagenService.getLstImagByProd(item.getProdId()));
@@ -184,12 +250,13 @@ public class ProductoService implements IProductoService {
 					logger.error("Error al buscor imagen del producto razon \n" + e.getMessage() + e.getCause(), e);
 					e.printStackTrace();
 				}
-			});*/
+			});
 			
 		} catch (Exception e) {
 			logger.error("Error al buscor el producto razon \n" + e.getMessage() + e.getCause());
 			throw new Exception(e);
 		}
+		
 		return lstProducto;
 	}
 

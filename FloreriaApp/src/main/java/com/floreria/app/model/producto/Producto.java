@@ -49,7 +49,9 @@ public class Producto implements Serializable {
 
 	@Column(name="prod_existencia_min")
 	private int prodExistenciaMin;
-
+	
+	@Column(name="prod_esinsumo")
+	private boolean prodEsInsumo;
 
 
 	//bi-directional many-to-one association to TipoProducto
@@ -305,6 +307,20 @@ public class Producto implements Serializable {
 	 */
 	public void setTpoMov(Integer tpoMov) {
 		this.tpoMov = tpoMov;
+	}
+
+	/**
+	 * @return the prodEsInsumo
+	 */
+	public boolean isProdEsInsumo() {
+		return prodEsInsumo;
+	}
+
+	/**
+	 * @param prodEsInsumo the prodEsInsumo to set
+	 */
+	public void setProdEsInsumo(boolean prodEsInsumo) {
+		this.prodEsInsumo = prodEsInsumo;
 	}
 	
 	

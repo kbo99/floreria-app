@@ -12,5 +12,5 @@ import com.floreria.app.model.imagen.Imagen;
  *
  */
 public interface IImagenDAO extends PagingAndSortingRepository<Imagen, Long> {
-
+	
 }
