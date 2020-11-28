@@ -51,7 +51,7 @@ public class PersonaController {
 			response.setMsError("No hay coincidencias");
 			response.setTitle("Error");
 		}
-		return new ResponseEntity<Response>(response, estatus);
+		return new ResponseEntity<Response>(response, estatus); 
 	}
 	
 	@GetMapping("/busca/rfc/{rfc}")

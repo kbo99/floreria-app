@@ -43,6 +43,7 @@ public class PersonaService implements IPersonaService {
 	}
 
 	@Override
+	@Transactional
 	public Persona savePersona(Persona persona) throws FloreriaBusinessException {
 		List<Direccion> direcciones = null;
 		if (Const.getNullToZero(persona.getPerId()) == null) {
@@ -65,11 +66,13 @@ public class PersonaService implements IPersonaService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<Persona> findByRfc(String perRfc) {
 		return personaDao.findByPerRfcLike(perRfc);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<Persona> findByNombres(Persona persona) {
 		List<Persona> result = new ArrayList<Persona>();
 		String perNombre = persona.getPerNombre();

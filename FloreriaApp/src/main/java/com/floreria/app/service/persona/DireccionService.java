@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.floreria.app.controller.utils.Const;
 import com.floreria.app.controller.utils.FloreriaBusinessException;
@@ -68,6 +69,7 @@ public class DireccionService implements IDireccionService {
 	}
 
 	@Override
+	@Transactional
 	public Direccion saveDireccion(Direccion direccion) throws FloreriaBusinessException  {
 		try {
 			if (Const.getNullToZero(direccion.getDirId()) == null) {
