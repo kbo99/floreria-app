@@ -14,11 +14,20 @@ import com.floreria.app.controller.utils.FloreriaBusinessException;
 import com.floreria.app.dao.venta.ICaptacionDAO;
 import com.floreria.app.dao.venta.IHoraEntregaDAO;
 import com.floreria.app.dao.venta.IOrdenDAO;
+import com.floreria.app.dao.pedido.IMetodoPagoDAO;
+import com.floreria.app.dao.pedido.IPagoEstatusDAO;
+import com.floreria.app.dao.pedido.IPedidoEstatusDAO;
+import com.floreria.app.dao.pedido.IntervaloDAO;
 import com.floreria.app.dao.venta.IPagoMetodo;
 import com.floreria.app.dao.venta.IPagoTipoDAO;
 import com.floreria.app.model.venta.Captacion;
 import com.floreria.app.model.venta.HoraEntrega;
 import com.floreria.app.model.venta.Orden;
+import com.floreria.app.model.pedido.Intervalo;
+import com.floreria.app.model.pedido.MetodoPago;
+import com.floreria.app.model.pedido.PagoEstatus;
+import com.floreria.app.model.pedido.Pedido;
+import com.floreria.app.model.pedido.PedidoEstatus;
 import com.floreria.app.model.venta.PagoMetodo;
 import com.floreria.app.model.venta.PagoTipo;
 
@@ -43,6 +52,16 @@ public class VentaService implements IVentaService{
 	
 	@Autowired
 	IOrdenDAO ordenDAO;
+	IPedidoEstatusDAO pedidoEstatusDAO;
+	
+	@Autowired
+	IMetodoPagoDAO metodoPagoDAO;
+	
+	@Autowired
+	IntervaloDAO intervaloDAO;
+	
+	@Autowired
+	IPagoEstatusDAO pagoEstatusDAO;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -54,6 +73,35 @@ public class VentaService implements IVentaService{
 	@Transactional(readOnly = true)
 	public List<PagoMetodo> findByPmetEstatus(String estatus) {
 		return (List<PagoMetodo>) pagoMetodoDAO.findByPmetEstatus(estatus);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<PedidoEstatus> findAllPedidoEstatus() throws Exception {
+		return (List<PedidoEstatus>) pedidoEstatusDAO.findAll();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<MetodoPago> findAllMetodoPago() throws Exception {
+		return metodoPagoDAO.findAll();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Intervalo> findAllIntervalo() throws Exception {
+		return intervaloDAO.findAll();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Pedido> findAllPedido() throws Exception {
+		return null;
+	}
+
+	@Override
+	public List<PagoEstatus> findAllPagoEstatus() throws Exception {
+		return (List<PagoEstatus>) pagoEstatusDAO.findAll();
 	}
 	
 	@Override

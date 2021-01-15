@@ -6,7 +6,6 @@ package com.floreria.app.controller.venta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -113,6 +112,70 @@ public class VentaController {
 			estatus = HttpStatus.INTERNAL_SERVER_ERROR;
 			response.setTypeMessage(IconAlert.ERROR);
 			response.setMsError("Error al generar la orden");
+			response.setTitle("Error");
+		}
+		return new ResponseEntity<Response>(response, estatus);
+	}
+	
+	@PostMapping("/findPagoEstatus")
+	public ResponseEntity<Response> findPagoEstatus() {
+		HttpStatus estatus = HttpStatus.OK;
+		Response response = new Response();
+		try {
+			response.setResponse(ventaService.findAllPagoEstatus());
+			response.setTypeMessage(IconAlert.SUCCESS);
+		} catch (Exception e) {
+			estatus = HttpStatus.INTERNAL_SERVER_ERROR;
+			response.setTypeMessage(IconAlert.ERROR);
+			response.setMsError("Error al Buscar El metodo de pago");
+			response.setTitle("Error");
+		}
+		return new ResponseEntity<Response>(response, estatus);
+	}
+	
+	@PostMapping("/findPedidoEstatus")
+	public ResponseEntity<Response> findPedidoEstatus() {
+		HttpStatus estatus = HttpStatus.OK;
+		Response response = new Response();
+		try {
+			response.setResponse(ventaService.findAllPedidoEstatus());
+			response.setTypeMessage(IconAlert.SUCCESS);
+		} catch (Exception e) {
+			estatus = HttpStatus.INTERNAL_SERVER_ERROR;
+			response.setTypeMessage(IconAlert.ERROR);
+			response.setMsError("Error al Buscar El metodo de pago");
+			response.setTitle("Error");
+		}
+		return new ResponseEntity<Response>(response, estatus);
+	}
+	
+	@PostMapping("/findMetodoPago")
+	public ResponseEntity<Response> findMetodoPago() {
+		HttpStatus estatus = HttpStatus.OK;
+		Response response = new Response();
+		try {
+			response.setResponse(ventaService.findAllMetodoPago());
+			response.setTypeMessage(IconAlert.SUCCESS);
+		} catch (Exception e) {
+			estatus = HttpStatus.INTERNAL_SERVER_ERROR;
+			response.setTypeMessage(IconAlert.ERROR);
+			response.setMsError("Error al Buscar El metodo de pago");
+			response.setTitle("Error");
+		}
+		return new ResponseEntity<Response>(response, estatus);
+	}
+	
+	@PostMapping("/findIntervalo")
+	public ResponseEntity<Response> findIntervalo() {
+		HttpStatus estatus = HttpStatus.OK;
+		Response response = new Response();
+		try {
+			response.setResponse(ventaService.findAllIntervalo());
+			response.setTypeMessage(IconAlert.SUCCESS);
+		} catch (Exception e) {
+			estatus = HttpStatus.INTERNAL_SERVER_ERROR;
+			response.setTypeMessage(IconAlert.ERROR);
+			response.setMsError("Error al Buscar El metodo de pago");
 			response.setTitle("Error");
 		}
 		return new ResponseEntity<Response>(response, estatus);

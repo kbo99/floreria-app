@@ -9,6 +9,11 @@ import com.floreria.app.controller.utils.FloreriaBusinessException;
 import com.floreria.app.model.venta.Captacion;
 import com.floreria.app.model.venta.HoraEntrega;
 import com.floreria.app.model.venta.Orden;
+import com.floreria.app.model.pedido.Intervalo;
+import com.floreria.app.model.pedido.MetodoPago;
+import com.floreria.app.model.pedido.PagoEstatus;
+import com.floreria.app.model.pedido.Pedido;
+import com.floreria.app.model.pedido.PedidoEstatus;
 import com.floreria.app.model.venta.PagoMetodo;
 import com.floreria.app.model.venta.PagoTipo;
 
@@ -56,5 +61,14 @@ public interface IVentaService {
 	 * @return Orden
 	 */
 	Orden saveOrden(Orden orden) throws FloreriaBusinessException;
-
+	
+	List<PedidoEstatus> findAllPedidoEstatus() throws Exception;
+	
+	List<MetodoPago> findAllMetodoPago() throws Exception;
+	
+	List<Intervalo> findAllIntervalo() throws Exception;
+	
+	List<Pedido> findAllPedido() throws Exception;
+	
+	List<PagoEstatus> findAllPagoEstatus() throws Exception;
 }
